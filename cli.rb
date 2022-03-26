@@ -1,3 +1,4 @@
-require 'lib/program'
+require './lib/program'
 
-Program.execute(ARGV)
+result = Program.execute(ARGV)
+pp(result)
