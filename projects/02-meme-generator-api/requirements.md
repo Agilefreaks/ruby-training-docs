@@ -7,6 +7,18 @@ The purpose of the Meme Generator API is to provide a REST API to add text in th
 - [Sinatra](http://sinatrarb.com)
 - [MiniMagick](https://rubygems.org/gems/mini_magick) - an interface from Ruby to ImageMagick (you can also use RMagick if this does not work)
 
+## Prerequisites
+
+To implement a REST API you need to know about HTTP, HTTP methods, HTTP authentication and HTTP status codes. 
+
+Here are some resources to help you understand all these concepts: 
+
+- https://www.youtube.com/watch?v=iYM2zFP3Zn0
+- https://developer.mozilla.org/en-US/docs/Web/HTTP/Overview 
+- https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods
+- https://developer.mozilla.org/en-US/docs/Web/HTTP/Status
+
+
 ## Endpoints
 
 ### POST /memes
