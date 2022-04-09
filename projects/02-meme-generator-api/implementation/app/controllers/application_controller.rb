@@ -23,10 +23,10 @@ class ApplicationController < Sinatra::Base
 
     session[:meme_path] = @meme.meme_path
 
-    redirect '/display_meme', 307
+    redirect '/display_meme', 303
   end
 
-  post '/display_meme' do
+  get '/display_meme' do
     send_file(session[:meme_path])
   end
 end
