@@ -1,5 +1,8 @@
 # frozen_string_literal: true
 
+require 'sinatra/base'
+require './app/models/meme'
+
 class ApplicationController < Sinatra::Base
   configure do
     set :views, 'app/views'
@@ -21,12 +24,10 @@ class ApplicationController < Sinatra::Base
     @meme.text = params[:text]
     @meme.create
 
-    session[:meme_path] = @meme.meme_path
-
-    redirect '/display_meme', 303
+    redirect "/display_meme/#{@meme.file_name}", 303
   end
 
-  get '/display_meme' do
-    send_file(session[:meme_path])
+  get '/display_meme/:file_name' do
+    send_file(Meme.file_path(params[:file_name]))
   end
 end
