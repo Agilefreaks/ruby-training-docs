@@ -19,7 +19,9 @@ Here are some resources to help you understand all these concepts:
 - https://developer.mozilla.org/en-US/docs/Web/HTTP/Status
 
 
-## Endpoints
+# Week 1:
+
+### Endpoints
 
 ### POST /memes
 
@@ -82,3 +84,79 @@ image.combine_options do |c|
 end
 image.write("./images/meme.jpeg")
 ```
+
+
+# Week 2:
+
+### Endpoints
+
+### POST /signup
+
+This endpoint will insert a user record in the database with the username and hashed password. 
+The password needs to be hashed one way using the bcrypt gem. See the bcrypt example in `02-meme-generatori-api/examples/bcrypt`
+
+Request body
+```
+{
+  user: {
+    "username": "mr_bean",
+    "password": "test123"
+  }
+}
+```
+
+**Responses**
+
+HTTP Status Code | Body | Description
+--- | --- | ---
+201 | { "user": { "token": "9411a3b57f420dc9c09a25bd78ae2851" } } | User created successfully |
+400 | { "errors": [{"message": "Username is blank"}] } | Username blank |
+400 | { "errors": [{"message": "Password is blank"}] } | Password blank |
+409 | N/A | User with the same email already exists |
+
+### POST /login
+
+This endpoint will find the user record in the database by the username and verify if the password matches.
+To check the password we need to use the bcrypt gem again.
+
+**Request body**
+```
+{
+  user: {
+    "username": "mr_bean",
+    "password": "test123"
+  }
+}
+```
+
+Responses:
+
+HTTP Status Code | Body | Description
+--- | --- | ---
+200 | { "user": { "token": "9411a3b57f420dc9c09a25bd78ae2851" } } | User Logged in successfully successfully |
+409 | N/A | User with the same email already exists |
+
+### Features
+Add authorization to the POST /meme endpoint by accepting an authorization header and verifying it against the users.
+
+**Headers**
+Authorization: Bearer <insert token from log in here>
+
+**Request body**
+
+```
+{
+  meme: {
+    "image_url": "https://images.unsplash.com/photo-1647549831144-09d4c521c1f1",
+    "text": "Start the way by organising your playground"
+  }
+}
+```
+
+Responses:
+
+HTTP Status Code | Body | Description
+--- | --- | ---
+401 | N/A | User is not logged in |
+307 | N/A | Meme created. User is redirected to the meme location |
+
