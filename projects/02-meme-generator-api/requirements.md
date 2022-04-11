@@ -48,7 +48,7 @@ Request body
 
 Response: 
 
-When successful, the response status should be 307 (temporary redirect) and the redirect URL should be the URL of the generated image. 
+When successful, the response status should be 303 (See Other) and the redirect URL should be the URL of the generated image. 
 
 See in the `/examples` directory a simple sintra app that redirects to an image.
 
