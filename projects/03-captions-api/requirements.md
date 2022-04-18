@@ -2,11 +2,45 @@
 
 The purpose of the this project is to continue implementation of Meme API and transform it into a usable product.
 
+## General Considerations
+
+*Unique names*
+
+Make sure you handle the situation where two different users will try to generate images for the same URL/file name but with different caption text. You need to find a way to generate some unique names for the generated images.
+
+*Response status*
+
+If the request is successful, the response status will be `200`. 
+
+If the request was for creating a new object (like `POST /captions` or `POST /captions/instagram`) the response status will be `201`. 
+
+If a resource is not found, then the response status will be `404`. This should happen every time someone wants to get an object by id and there is no object with that id. 
+
+When fetching a collection (like `GET /captions`) if there are no objects found, then the response status will be `200` and the body will contain an empty array. Eg. `{ captions: [] }`. 
+
+If the request does not contain the required parameters, or their name is incorrect (eg: sending `uri` instead of `url` attribute in request body or not sending at all this parameters) the server should respond with `400`. More details about 400 status code [here](https://datatracker.ietf.org/doc/html/rfc7231#section-6.5.1). 
+
+If the request contains the required parameters and their name is correct but their value is invalid (eg: sending an empty string in `url`) the server response should be `422`. More details about 422 status code [here](https://datatracker.ietf.org/doc/html/rfc4918#section-11.2).
+
+*Error response body*
+
+When the response is `4xx` then the response body should contain an error object:
+
+```json
+{
+  "code": "missing_parameters",
+  "title": "Parameter is missing from the request body",
+  "description" "url parameter is missing from the request body. It is a required parameter and the request cannot be processed without it"
+}
+```
+
+More details about these object propertiers [here](https://jsonapi.org/format/#errors).
+
 ## Simple Captions
 
 ### POST /captions
 
-API client will do a request: 
+Request: 
 
 ```
 POST /captions
@@ -21,12 +55,26 @@ with the following body:
   }
 }
 ```
-and it will get back the image with the caption text on it so the response will be 303 and redirect to the image URL. 
+and it will get back the image with the caption text on it.
+
+The response will be: 
+```json 
+{
+  "caption": {
+    "id": 123,
+    "url": "http://image.url/meme.jpg",
+    "text": "caption text",
+    "caption_url": "http://example.com/images/meme.jpb" 
+  },
+}
+```
+The response status will be: 303 and should contain in `Location` header field the `caption_url`. 
 
 ### GET /captions
 
 Will return a list of all generated simple captions.
-The responde body will be JSON:
+
+The responde body will be a JSON with the following structure: 
 
 ```json
 {
@@ -34,23 +82,41 @@ The responde body will be JSON:
     {
       "id": 123,
       "url": "",
-      "text": ""
+      "text": "",
+      "caption_url": "" 
     },
     {
       "id": 124,
       "url": "",
-      "text": ""
+      "text": "",
+      "caption_url: ""
     }
   ]
 }
 ```
 
+where: 
+- `id` is the generated unique ID
+- `url` is the original URL of the image submitted by the user
+- `text` is the text that should be added on the image
+- `caption_url` is the URL of the generated image.
+
 ### GET /captions/:id
-Will redirect to the generated image.
+Will return the attributes for the caption with id `:id`
+```json 
+{
+  "caption": {
+    "id": 123,
+    "url": "http://image.url/meme.jpg",
+    "text": "caption text",
+    "caption_url": "http://example.com/images/meme.jpb" 
+  },
+}
+```
 
 ### DELETE /captions/:id
 Will delete the caption with that ID and its associated files. 
-
+The response will be `:200` if the delete was successful. 
 
 ## Instagram Captions
 
@@ -73,7 +139,7 @@ with the following body:
   }
 }
 ```
-The response will the same as for the `POST /captions`
+The response will the same as for the `POST /captions`.
 
 See details about images sizes [here](https://help.instagram.com/1631821640426723), you should crop the image accordingly with the image sizes. 
 
@@ -136,4 +202,4 @@ The supported filters will be:
 
 ### GET /captions/instagrams
 
-This will return a list of images. 
+This will return a list of images in JSON format. 
