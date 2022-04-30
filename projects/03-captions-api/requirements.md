@@ -30,7 +30,7 @@ When the response is `4xx` then the response body should contain an error object
 {
   "code": "missing_parameters",
   "title": "Parameter is missing from the request body",
-  "description" "url parameter is missing from the request body. It is a required parameter and the request cannot be processed without it"
+  "description": "url parameter is missing from the request body. It is a required parameter and the request cannot be processed without it"
 }
 ```
 
