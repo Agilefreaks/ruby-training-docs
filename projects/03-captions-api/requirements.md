@@ -97,7 +97,7 @@ The responde body will be a JSON with the following structure:
       "id": 124,
       "url": "",
       "text": "",
-      "caption_url: ""
+      "caption_url": ""
     }
   ]
 }
