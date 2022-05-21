@@ -108,7 +108,9 @@ Example Return:
           "title": "12ft – Hop any paywall",
           "description": "Show me a 10ft paywall, I’ll show you a 12ft ladder",
           "url": "https://12ft.io/",
-          "image": "https://12ft.io/og-banner.png"
+          "image": {
+            "url": "https://12ft.io/og-banner.png"
+           }
         }
       ]
     }
