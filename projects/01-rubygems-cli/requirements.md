@@ -64,8 +64,7 @@ When implementing this authentication to your GET calls to RubyGems make it so t
 
 Resources:
 
-- https://ruby-doc.org/core-3.1.0/ENV.html
-- https://www.serverlab.ca/tutorials/linux/administration-linux/how-to-set-environment-variables-in-linux/
+- https://docs.ruby-lang.org/en/4.0/ENV.html
 - https://dev.to/kapilgorve/set-environment-variable-in-windows-and-wsl-linux-in-terminal-3mg4
 
 #### Week 2 Feature: Add an option to order or filter the search
@@ -104,8 +103,8 @@ gems = results.map { |gem_data| Gem.new(gem_data) }
 ```
 
 Hints:
-- https://ruby-doc.org/core-3.1.0/Array.html
-- https://ruby-doc.org/core-3.1.1/Enumerable.html
+- https://docs.ruby-lang.org/en/4.0/Array.html
+- https://docs.ruby-lang.org/en/4.0/Enumerable.html
 - Do not use metaprogramming. You can maybe as an example use `send` or `public_send`
 
 #### Week 2 Feature: Local caching
