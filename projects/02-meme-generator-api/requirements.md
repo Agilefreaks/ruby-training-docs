@@ -56,7 +56,7 @@ See in the `/examples` directory a simple sintra app that redirects to an image.
 
 ### General logic flow
 
-You should download the image locally in a folder. Hint you can use [OpenURI](https://ruby-doc.org/stdlib-3.1.0/libdoc/open-uri/rdoc/OpenURI.html) and then simple save the content to a file locally. 
+You should download the image locally in a folder. Hint you can use [OpenURI](https://docs.ruby-lang.org/en/4.0/OpenURI.html) and then simple save the content to a file locally. 
 
 Then convert it with ImageMagick via the Ruby gem. See the section below. 
 

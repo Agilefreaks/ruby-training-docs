@@ -1,14 +1,17 @@
 GEM
   remote: https://rubygems.org/
   specs:
-    bcrypt (3.1.17)
+    bcrypt (3.1.22)
 
 PLATFORMS
-  x86_64-darwin-21
-  x86_64-linux
+  arm64-darwin-24
+  ruby
 
 DEPENDENCIES
   bcrypt
 
+CHECKSUMS
+  bcrypt (3.1.22) sha256=1f0072e88c2d705d94aff7f2c5cb02eb3f1ec4b8368671e19112527489f29032
+
 BUNDLED WITH
-   2.3.8
+  4.0.11
