@@ -2,5 +2,5 @@
 
 ```
 bundle install
-ruby bctypt.rb
+ruby bcrypt.rb
 ```

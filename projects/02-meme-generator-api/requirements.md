@@ -14,9 +14,9 @@ To implement a REST API you need to know about HTTP, HTTP methods, HTTP authenti
 Here are some resources to help you understand all these concepts: 
 
 - https://www.youtube.com/watch?v=iYM2zFP3Zn0
-- https://developer.mozilla.org/en-US/docs/Web/HTTP/Overview 
-- https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods
-- https://developer.mozilla.org/en-US/docs/Web/HTTP/Status
+- https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/Overview
+- https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Methods
+- https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Status
 
 
 # Week 1:
@@ -32,7 +32,7 @@ Example:
 Request: 
 
 ```
-POST /memems
+POST /memes
 ```
 
 Request body 
@@ -60,7 +60,7 @@ You should download the image locally in a folder. Hint you can use [OpenURI](ht
 
 Then convert it with ImageMagick via the Ruby gem. See the section below. 
 
-Then serve the image to the end-user. See the example in the `02-meme-generatori-api/examples` directory.
+Then serve the image to the end-user. See the example in the `02-meme-generator-api/examples` directory.
 
 ### Command line example to add a text on an image
 
@@ -93,7 +93,7 @@ image.write("./images/meme.jpeg")
 ### POST /signup
 
 This endpoint will insert a user record in the database with the username and hashed password. 
-The password needs to be hashed one way using the bcrypt gem. See the bcrypt example in `02-meme-generatori-api/examples/bcrypt`
+The password needs to be hashed one way using the bcrypt gem. See the bcrypt example in `02-meme-generator-api/examples/bcrypt-example`
 
 Request body
 ```
@@ -133,7 +133,7 @@ Responses:
 
 HTTP Status Code | Body | Description
 --- | --- | ---
-200 | { "user": { "token": "9411a3b57f420dc9c09a25bd78ae2851" } } | User Logged in successfully successfully |
+200 | { "user": { "token": "9411a3b57f420dc9c09a25bd78ae2851" } } | User Logged in successfully |
 409 | N/A | User with the same email already exists |
 
 ### Features
