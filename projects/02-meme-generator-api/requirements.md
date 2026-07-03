@@ -64,8 +64,14 @@ Then serve the image to the end-user. See the example in the `02-meme-generator-
 
 ### Command line example to add a text on an image
 
+On Apple Mac this will work
 ```bash
 convert -font Helvetica -fill black -undercolor White -pointsize 60 -gravity center -draw "text 0,200 'Mornings are best'" original.jpeg meme.jpeg
+```
+
+On a decent linux distro this works
+```bash
+magick images/original.jpeg -font Liberation-Sans -fill black -undercolor White -pointsize 60 -gravity center -draw "text 0,200 'Mornings are best'" meme.jpeg
 ```
 
 In Ruby for MiniMagick you can use the `MiniMagick::Tool::Convert.new` which would accept similar attributes but it is in Ruby and you will not need to make a system call. 
