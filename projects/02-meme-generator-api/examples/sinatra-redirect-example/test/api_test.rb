@@ -17,4 +17,10 @@ class ApiTest < Minitest::Test
 
     assert_equal expected_image, last_response.body
   end
+
+  def test_post_memes_will_return_permanent_redirect
+    post '/memes'
+
+    assert_equal 303, last_response.status
+  end
 end

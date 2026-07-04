@@ -6,6 +6,10 @@ get '/redirect' do
   redirect '/memes/meme2.jpg', 307
 end
 
+post '/memes' do
+  303
+end
+
 # This is just for demo purposes
 #  you should not use unsanitized parameters provided by user to access file paths
 get '/memes/:file' do
