@@ -19,8 +19,14 @@ class ApiTest < Minitest::Test
   end
 
   def test_post_memes_will_return_permanent_redirect
-    post '/memes'
+    post '/memes', {}.to_json, { 'CONTENT_TYPE' => 'application/json' }
 
     assert_equal 303, last_response.status
+  end
+
+  def test_post_memes_with_empty_body_will_return_bad_request
+    post '/memes'
+
+    assert last_response.bad_request?
   end
 end

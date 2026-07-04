@@ -7,6 +7,7 @@ get '/redirect' do
 end
 
 post '/memes' do
+  halt 400 if request.body.read.empty?
   303
 end
 
