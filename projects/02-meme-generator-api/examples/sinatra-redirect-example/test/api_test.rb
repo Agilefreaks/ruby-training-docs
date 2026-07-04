@@ -46,12 +46,38 @@ class ApiTest < Minitest::Test
   end
 
   def test_post_memes_concurrent_request
+    request_fiber = lambda do |text|
+      Fiber.new do
+        session = Rack::Test::Session.new(app)
+        post_memes(image_url: "http://image.random", text: text, session: session)
+        Fiber.yield :written
 
+        session.follow_redirect!
+        MiniMagick::Image.read(session.last_response.body)
+      end
+    end
+
+    request1 = request_fiber.call('My text is the best')
+    request1.resume
+    request1_image = request1.resume
+
+    request2 = request_fiber.call('NO! My text is the best')
+    request2.resume
+    request2_image = request2.resume
+
+    request1 = request_fiber.call('My text is the best')
+    request2 = request_fiber.call('NO! My text is the best')
+
+    request1.resume
+    request2.resume
+
+    assert_equal request1_image, request1.resume
+    assert_equal request2_image, request2.resume
   end
 
   private
 
-  def post_memes(image_url: nil, text: nil)
+  def post_memes(image_url: nil, text: nil, session: self)
     body = {
       meme: {
         image_url: image_url,
@@ -59,6 +85,6 @@ class ApiTest < Minitest::Test
       }
     }
     headers = { 'CONTENT_TYPE' => 'application/json' }
-    post '/memes', body.to_json, headers
+    session.post '/memes', body.to_json, headers
   end
 end

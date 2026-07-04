@@ -27,9 +27,10 @@ post '/memes' do
     c.font 'Liberation-Sans'
     c.pointsize "60"
   end
-  image.write("./images/meme.jpeg")
+  file_name = SecureRandom.uuid
+  image.write("./images/#{file_name}.jpeg")
 
-  redirect '/memes/meme.jpeg', 303
+  redirect "/memes/#{file_name}.jpeg", 303
 end
 
 # This is just for demo purposes
