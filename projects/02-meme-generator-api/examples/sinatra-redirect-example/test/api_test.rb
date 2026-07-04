@@ -11,7 +11,10 @@ class ApiTest < Minitest::Test
 
   def test_rediret_will_return_the_temp_redirect_status
     get '/redirect'
+    follow_redirect!
 
-    assert last_response.redirect?
+    expected_image = File.binread(File.expand_path('../images/meme2.jpg', __dir__))
+
+    assert_equal expected_image, last_response.body
   end
 end
