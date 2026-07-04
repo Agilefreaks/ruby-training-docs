@@ -14,9 +14,7 @@ class ApiTest < Minitest::Test
 
   def app
     result = Sinatra::Application
-    result.set(:download) do |url|
-      StubDownloader.new.call(url)
-    end
+    result.set(:download, StubDownloader.new)
     result
   end
 

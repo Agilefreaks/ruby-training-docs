@@ -6,9 +6,7 @@ require_relative 'lib/net_downloader'
 require_relative 'lib/meme_generator_input'
 require_relative 'lib/meme_generator'
 
-configure do
-  set :download, NetDownloader.new
-end
+set :download, NetDownloader.new
 
 get '/redirect' do
   redirect '/memes/meme2.jpg', 307
@@ -21,7 +19,7 @@ post '/memes' do
     halt 400, { "Content-Type" => "application/json" }, { errors: input.errors }.to_json
   end
 
-  file_name = MemeGenerator.new(->(url) { settings.download(url) }).call(input)
+  file_name = MemeGenerator.new(settings.download).call(input)
 
   redirect "/memes/#{file_name}.jpeg", 303
 end
