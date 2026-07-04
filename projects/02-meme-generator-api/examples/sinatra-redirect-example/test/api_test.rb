@@ -24,7 +24,7 @@ class ApiTest < Minitest::Test
   end
 
   def test_post_memes_will_return_permanent_redirect
-    post '/memes', {}.to_json, { 'CONTENT_TYPE' => 'application/json' }
+    post_memes()
 
     assert_equal 303, last_response.status
   end
@@ -36,19 +36,29 @@ class ApiTest < Minitest::Test
   end
 
   def test_post_memes_will_redirect_to_the_generated_meme
-    body = {
-      meme: {
-        image_url: "https://images.unsplash.com/photo-1647549831144-09d4c521c1f1",
-        text: "Mornings are best"
-      }
-    }
-    headers = { 'CONTENT_TYPE' => 'application/json' }
-    post '/memes', body.to_json, headers
+    post_memes(image_url: 'http://image.url', text: 'Mornings are best')
     follow_redirect!
 
     actual_image = MiniMagick::Image.open(File.expand_path('fixtures/meme.jpeg', __dir__))
     image = MiniMagick::Image.read(last_response.body)
 
     assert_equal actual_image, image
+  end
+
+  def test_post_memes_concurrent_request
+
+  end
+
+  private
+
+  def post_memes(image_url: nil, text: nil)
+    body = {
+      meme: {
+        image_url: image_url,
+        text: text
+      }
+    }
+    headers = { 'CONTENT_TYPE' => 'application/json' }
+    post '/memes', body.to_json, headers
   end
 end
