@@ -39,6 +39,8 @@ class ApiTest < Minitest::Test
     post '/memes'
 
     assert last_response.bad_request?
+    errors = JSON.parse(last_response.body)['errors']
+    assert_includes errors, 'Body must be a json of form: {meme: {image_url: "url", text: "text"}} (RTFM)'
   end
 
   def test_post_memes_with_empty_image_url_will_return_bad_request_with_errors
