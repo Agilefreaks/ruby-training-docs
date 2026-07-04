@@ -1,12 +1,17 @@
 # frozen_string_literal: true
 
 require 'test_helper'
+require 'mini_magick'
 
 class ApiTest < Minitest::Test
   include Rack::Test::Methods
 
   def app
-    Sinatra::Application
+    result = Sinatra::Application
+    result.set(:download) do |_uri|
+      File.binread(File.expand_path('fixtures/original.jpeg', __dir__))
+    end
+    result
   end
 
   def test_rediret_will_return_the_temp_redirect_status
@@ -28,5 +33,22 @@ class ApiTest < Minitest::Test
     post '/memes'
 
     assert last_response.bad_request?
+  end
+
+  def test_post_memes_will_redirect_to_the_generated_meme
+    body = {
+      meme: {
+        image_url: "https://images.unsplash.com/photo-1647549831144-09d4c521c1f1",
+        text: "Mornings are best"
+      }
+    }
+    headers = { 'CONTENT_TYPE' => 'application/json' }
+    post '/memes', body.to_json, headers
+    follow_redirect!
+
+    actual_image = MiniMagick::Image.open(File.expand_path('fixtures/meme.jpeg', __dir__))
+    image = MiniMagick::Image.read(last_response.body)
+
+    assert_equal actual_image, image
   end
 end
