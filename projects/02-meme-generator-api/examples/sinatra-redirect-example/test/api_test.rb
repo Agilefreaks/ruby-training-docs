@@ -30,7 +30,7 @@ class ApiTest < Minitest::Test
   end
 
   def test_post_memes_will_return_permanent_redirect
-    post_memes()
+    post_memes(image_url: 'some/url')
 
     assert_equal 303, last_response.status
   end
@@ -39,6 +39,14 @@ class ApiTest < Minitest::Test
     post '/memes'
 
     assert last_response.bad_request?
+  end
+
+  def test_post_memes_with_empty_image_url_will_return_bad_request_with_errors
+    post_memes(image_url: '', text: 'Some text')
+
+    assert last_response.bad_request?
+    errors = JSON.parse(last_response.body)['errors']
+    assert_includes errors, 'Missing image url'
   end
 
   def test_post_memes_will_redirect_to_the_generated_meme

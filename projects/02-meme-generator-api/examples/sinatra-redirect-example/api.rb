@@ -15,9 +15,16 @@ end
 post '/memes' do
   body = request.body.read
   halt 400 if body.empty?
+
+  errors = []
   parsed_body = JSON.parse(body)
   image_url = parsed_body.dig('meme', 'image_url')
+  errors << "Missing image url" if image_url.nil? || image_url.empty?
   text = parsed_body.dig('meme', 'text')
+
+  unless errors.empty?
+    halt 400, { "Content-Type" => "application/json" }, { errors: errors }.to_json
+  end
 
   image = MiniMagick::Image.read(settings.download(image_url))
   image.combine_options do |c|
