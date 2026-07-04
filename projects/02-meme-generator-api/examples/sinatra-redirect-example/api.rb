@@ -2,9 +2,10 @@
 
 require 'sinatra'
 require 'mini_magick'
+require_relative 'lib/net_downloader'
 
 configure do
-  set :download, ->(url) { URI.open(url).read }
+  set :download, NetDownloader.new
 end
 
 get '/redirect' do

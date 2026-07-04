@@ -6,10 +6,16 @@ require 'mini_magick'
 class ApiTest < Minitest::Test
   include Rack::Test::Methods
 
+  class StubDownloader
+    def call(_url)
+      File.binread(File.expand_path('fixtures/original.jpeg', __dir__))
+    end
+  end
+
   def app
     result = Sinatra::Application
-    result.set(:download) do |_uri|
-      File.binread(File.expand_path('fixtures/original.jpeg', __dir__))
+    result.set(:download) do |url|
+      StubDownloader.new.call(url)
     end
     result
   end
