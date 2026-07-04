@@ -3,6 +3,7 @@
 require 'sinatra'
 require 'mini_magick'
 require_relative 'lib/net_downloader'
+require_relative 'lib/meme_generator_input'
 
 configure do
   set :download, NetDownloader.new
@@ -18,18 +19,19 @@ post '/memes' do
 
   errors = []
   parsed_body = JSON.parse(body)
-  image_url = parsed_body.dig('meme', 'image_url')
-  errors << "Missing image url" if image_url.nil? || image_url.empty?
-  text = parsed_body.dig('meme', 'text')
+  input = MemeGeneratorInput.from_json(parsed_body)
+
+  errors << "Missing image url" if input.missing_image_url?
+  errors << "Missing text" if input.missing_text?
 
   unless errors.empty?
     halt 400, { "Content-Type" => "application/json" }, { errors: errors }.to_json
   end
 
-  image = MiniMagick::Image.read(settings.download(image_url))
+  image = MiniMagick::Image.read(settings.download(input.image_url))
   image.combine_options do |c|
     c.gravity "center"
-    c.draw "text 0,200 '#{text}'"
+    c.draw "text 0,200 '#{input.text}'"
     c.undercolor "White"
     c.fill "Black"
     c.font 'Liberation-Sans'
